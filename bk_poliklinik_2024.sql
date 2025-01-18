@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jan 17, 2025 at 04:11 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Jan 18, 2025 at 05:07 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -122,6 +122,29 @@ INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_seles
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `konsultasi`
+--
+
+CREATE TABLE `konsultasi` (
+  `id` int(11) NOT NULL,
+  `id_pasien` int(11) DEFAULT NULL,
+  `id_dokter` int(11) DEFAULT NULL,
+  `subject` varchar(50) DEFAULT NULL,
+  `pertanyaan` text DEFAULT NULL,
+  `jawaban` text DEFAULT NULL,
+  `tgl_konsultasi` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `konsultasi`
+--
+
+INSERT INTO `konsultasi` (`id`, `id_pasien`, `id_dokter`, `subject`, `pertanyaan`, `jawaban`, `tgl_konsultasi`) VALUES
+(7, 19, 1, 'cccc', 'aaaa', NULL, '2025-01-18 10:39:15');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `obat`
 --
 
@@ -210,7 +233,8 @@ CREATE TABLE `pasien` (
 INSERT INTO `pasien` (`id`, `nama`, `alamat`, `no_ktp`, `no_hp`, `no_rm`) VALUES
 (16, 'Yoga Pratama', 'Trangkil', '111111', '082110778946', '202501-001'),
 (17, 'Yoga', 'Pati', '22222', '22222', '202501-002'),
-(18, 'Bagus', 'Pati', '33333', '12345', '202501-003');
+(18, 'Bagus', 'Pati', '33333', '12345', '202501-003'),
+(19, 'Alif', 'alif', '123', '123', '202501-004');
 
 -- --------------------------------------------------------
 
@@ -290,6 +314,14 @@ ALTER TABLE `jadwal_periksa`
   ADD KEY `id_dokter` (`id_dokter`);
 
 --
+-- Indexes for table `konsultasi`
+--
+ALTER TABLE `konsultasi`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pasien` (`id_pasien`),
+  ADD KEY `id_dokter` (`id_dokter`);
+
+--
 -- Indexes for table `obat`
 --
 ALTER TABLE `obat`
@@ -343,6 +375,12 @@ ALTER TABLE `jadwal_periksa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
+-- AUTO_INCREMENT for table `konsultasi`
+--
+ALTER TABLE `konsultasi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `obat`
 --
 ALTER TABLE `obat`
@@ -352,7 +390,7 @@ ALTER TABLE `obat`
 -- AUTO_INCREMENT for table `pasien`
 --
 ALTER TABLE `pasien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `periksa`
@@ -395,6 +433,13 @@ ALTER TABLE `dokter`
 --
 ALTER TABLE `jadwal_periksa`
   ADD CONSTRAINT `jadwal_periksa_ibfk_1` FOREIGN KEY (`id_dokter`) REFERENCES `dokter` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `konsultasi`
+--
+ALTER TABLE `konsultasi`
+  ADD CONSTRAINT `konsultasi_ibfk_1` FOREIGN KEY (`id_pasien`) REFERENCES `pasien` (`id`),
+  ADD CONSTRAINT `konsultasi_ibfk_2` FOREIGN KEY (`id_dokter`) REFERENCES `dokter` (`id`);
 
 --
 -- Constraints for table `periksa`
